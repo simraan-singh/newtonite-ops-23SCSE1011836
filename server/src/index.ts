@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import { authRouter, requireAuth } from './auth';
 import { itemsRouter } from './items';
+import { metaRouter } from './meta';
 import { HttpError } from './errors';
 
 const app = express();
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(authRouter);
 app.get('/me', requireAuth, (_req, res) => res.json(res.locals.user));
 app.use('/items', itemsRouter);
+app.use(metaRouter);
 
 // One place that turns errors into clean JSON responses
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
